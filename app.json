@@ -1,0 +1,12 @@
+{
+  "name": "Mobile-CodeX",
+  "displayName": "Mobile-CodeX",
+  "expo": {
+    "name": "Mobile-CodeX",
+    "slug": "Mobile-CodeX",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
