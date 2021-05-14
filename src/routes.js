@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const appStack = createStackNavigator();
 
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 
 export default function Routes() {
     return (
