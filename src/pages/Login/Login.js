@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Image, Text, TextInput, TouchableHighlight } from 'react-native';
+import { View, Image, Text, TextInput, TouchableHighlight, AsyncStorage } from 'react-native';
 
 import logo from '../../../assets/logo.png';
+
+import api from '../../services/api';
 
 import style from './styles';
 
@@ -12,12 +14,13 @@ export default function Login() {
 
     const navigation = useNavigation();
 
-    function handleEmailChange(email) {
-        setEmail({ email });
-    }
-
-    function handlePasswordChange(password) {
-        setPassword({ password })
+    async function handleLogin(e) {
+        try {
+            navigation.navigate('Profile');
+        }
+        catch (error) {
+            console.log(error.message);
+        }
     }
 
     return (
@@ -31,21 +34,21 @@ export default function Login() {
 
             <TextInput style={style.textInput}
                 placeholder="Endereço de e-mail"
-                value=""
-                onChangeText={handleEmailChange}
+                value={email}
+                onChangeText={setEmail}
                 autoCapitalize="none"
                 autoCorrect={false}
             />
 
             <TextInput style={style.textInput}
                 placeholder="Senha"
-                value=""
-                onChangeText={handlePasswordChange}
+                value={password}
+                onChangeText={setPassword}
                 autoCapitalize="none"
                 autoCorrect={false}
             />
 
-            <TouchableHighlight style={style.button} >
+            <TouchableHighlight style={style.button} onPress={() => handleLogin()} >
                 <Text style={style.buttonText} > Entrar </Text>
             </TouchableHighlight>
 
