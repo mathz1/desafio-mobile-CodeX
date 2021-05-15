@@ -8,38 +8,46 @@ import api from '../../services/api';
 
 import style from './styles';
 
-export default function Login() {
+export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
 
     const navigation = useNavigation();
 
-    async function handleLogin(e) {
-        try {
-            navigation.navigate('Profile');
-        }
-        catch (error) {
-            console.log(error.message);
-        }
-    }
+    async function handleRegister(e) {
+      try {
+        navigation.navigate('Login');
+      }
+      catch (error) {
+        console.log(error.message);
+      }
+    };
 
     async function handlePage(e) {
-        try {
-            navigation.navigate('Register');
-        }
-        catch (error) {
-            console.log(error.message);
-        }
-    }
+      try {
+        navigation.navigate('CreateTask');
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
 
     return (
         <View style={style.container} >
             <View style={style.header} >
                 <Image source={logo} />
                 <Text style={style.headerText} >
-                    Acesse sua conta e organize suas tarefas!
+                    Crie sua conta e organize suas tarefas!
                 </Text>
             </View>
+
+            <TextInput style={style.textInput}
+                placeholder="Nome"
+                value={name}
+                onChangeText={setName}
+                autoCapitalize="none"
+                autoCorrect={false}
+            />
 
             <TextInput style={style.textInput}
                 placeholder="Endereço de e-mail"
@@ -57,12 +65,12 @@ export default function Login() {
                 autoCorrect={false}
             />
 
-            <TouchableHighlight style={style.button} onPress={() => handleLogin()} >
-                <Text style={style.buttonText} > Entrar </Text>
+            <TouchableHighlight style={style.button} onPress={() => handleRegister()} >
+                <Text style={style.buttonText} > Criar conta </Text>
             </TouchableHighlight>
 
             <TouchableHighlight style={style.signUp} onPress={() => handlePage()} >
-                <Text style={style.signUpText}> Criar conta grátis </Text>
+                <Text style={style.signUpText}> Já tenho uma conta </Text>
             </TouchableHighlight>
 
         </View>
