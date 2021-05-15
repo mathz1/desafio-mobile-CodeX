@@ -1,46 +1,58 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Image, Text, TextInput, TouchableHighlight } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import logo from '../../../assets/logo.png';
 
 import api from '../../services/api';
 
 import style from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Login() {
+export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
 
     const navigation = useNavigation();
 
-    async function handleLogin() {
-        const response = await api.post('login', { email: email, password: password });
+    async function handleRegister() {
+      try {
+        const response = await api.post('register', { name, email, password });
 
         await AsyncStorage.setItem('token', response.data.token);
         await AsyncStorage.setItem('userName', response.data.user.name);
 
         navigation.navigate('Profile');
-    }
+      }
+      catch (error) {
+        console.log(error.message);
+      }
+    };
 
-    async function handlePage(e) {
-        try {
-            navigation.navigate('Register');
-        }
-        catch (error) {
-            console.log(error.message);
-        }
-    }
+    async function handlePage() {
+      try {
+        navigation.goBack();
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
 
     return (
         <View style={style.container} >
             <View style={style.header} >
                 <Image source={logo} />
                 <Text style={style.headerText} >
-                    Acesse sua conta e organize suas tarefas!
+                    Crie sua conta e organize suas tarefas!
                 </Text>
             </View>
+
+            <TextInput style={style.textInput}
+                placeholder="Nome"
+                value={name}
+                onChangeText={setName}
+                autoCorrect={false}
+            />
 
             <TextInput style={style.textInput}
                 placeholder="Endereço de e-mail"
@@ -53,19 +65,18 @@ export default function Login() {
             <TextInput style={style.textInput}
                 secureTextEntry={true}
                 placeholder="Senha"
-                type="password"
                 value={password}
                 onChangeText={setPassword}
                 autoCapitalize="none"
                 autoCorrect={false}
             />
 
-            <TouchableHighlight style={style.button} onPress={() => handleLogin()} >
-                <Text style={style.buttonText} > Entrar </Text>
+            <TouchableHighlight style={style.button} onPress={() => handleRegister()} >
+                <Text style={style.buttonText} > Criar conta </Text>
             </TouchableHighlight>
 
             <TouchableHighlight style={style.signUp} onPress={() => handlePage()} >
-                <Text style={style.signUpText}> Criar conta grátis </Text>
+                <Text style={style.signUpText}> Já tenho uma conta </Text>
             </TouchableHighlight>
 
         </View>

@@ -15,6 +15,23 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
 
+    description: {
+        fontSize: 16,
+        lineHeight: 24,
+        color: '#737380'
+    },
+
+    buttonAdd: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    viewAdd: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+
     title: {
         fontSize: 22,
         marginBottom: 16,
@@ -23,24 +40,24 @@ export default StyleSheet.create({
         fontWeight: 'bold'
     },
 
-    incidentList: {
+    taskList: {
         marginTop: 32,
     },
 
-    incident: {
+    task: {
         padding: 24,
         borderRadius: 8,
         backgroundColor: '#fff',
         marginBottom: 16
     },
 
-    incidentProperty: {
+    taskProperty: {
         fontSize: 14,
         color: '#41414d',
         fontWeight: 'bold'
     },
 
-    incidentValue: {
+    taskValue: {
         marginTop: 8,
         fontSize: 15,
         marginBottom: 24,

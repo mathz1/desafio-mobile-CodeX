@@ -54,6 +54,16 @@ export default function Profile() {
         return 'NÃO';
     }
 
+    function handleCreateTask() {
+        navigation.navigate('CreateTask');
+    }
+
+    async function handleLogout() {
+        await AsyncStorage.clear();
+
+        navigation.navigate('Login');
+    }
+
     return (
         <View style={style.container} >
             <View style={style.header} >
@@ -61,30 +71,40 @@ export default function Profile() {
             </View>
 
             <Text style={style.title}>Bem vindo(a)!</Text>
+            <View style={style.viewAdd} >
+                <TouchableOpacity style={style.buttonAdd} onPress={() => handleCreateTask()} >
+                    <Text style={style.description} >Cadastrar nova tarefa </Text>
+                    <Feather style={style.description} name="plus" size={16} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={style.buttonAdd} onPress={() => handleLogout()} >
+                    <Feather name="power" size={24} color="#6904A7"/>
+                </TouchableOpacity>
+            </View>
 
             <FlatList
-                style={style.incidentList}
+                style={style.taskList}
                 data={tasks}
                 keyExtractor={task => String(task._id)}
                 showsVerticalScrollIndicator={false}
                 onEndReached={loadTasks}
                 onEndReachedThreshold={0.2}
                 renderItem={({ item: task }) => (
-                    <View style={style.incident} >
-                        <Text style={style.incidentProperty} >NOME:</Text>
-                        <Text style={style.incidentValue} >{task.name}</Text>
+                    <View style={style.task} >
+                        <Text style={style.taskProperty} >NOME:</Text>
+                        <Text style={style.taskValue} >{task.name}</Text>
 
-                        <Text style={style.incidentProperty} >PRIORIDADE:</Text>
-                        <Text style={style.incidentValue} >{task.priority}</Text>
+                        <Text style={style.taskProperty} >PRIORIDADE:</Text>
+                        <Text style={style.taskValue} >{task.priority}</Text>
 
-                        <Text style={style.incidentProperty} >COMPLETA:</Text>
-                        <Text style={style.incidentValue} >{completed(task.completed)}</Text>
+                        <Text style={style.taskProperty} >COMPLETA:</Text>
+                        <Text style={style.taskValue} >{completed(task.completed)}</Text>
 
                         <TouchableOpacity 
                             style={style.detailsButton} 
                             onPress={() => navigateToDetail(incident)}
                         >
-                            <Text style={style.detailsButtonText} >Ver mais detalhes</Text>
+                            <Text style={style.detailsButtonText} >Atualizar tarefa</Text>
                             <Feather name="arrow-right" size={16} color="#6904A7" />
                         </TouchableOpacity>
                     </View>
