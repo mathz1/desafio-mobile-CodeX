@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Image, Text, TextInput, TouchableHighlight, AsyncStorage } from 'react-native';
+import { View, Image, Text, TextInput, TouchableHighlight } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import logo from '../../../assets/logo.png';
 
@@ -14,13 +15,13 @@ export default function Login() {
 
     const navigation = useNavigation();
 
-    async function handleLogin(e) {
-        try {
-            navigation.navigate('Profile');
-        }
-        catch (error) {
-            console.log(error.message);
-        }
+    async function handleLogin() {
+        const response = await api.post('login', { email: email, password: password });
+
+        await AsyncStorage.setItem('token', response.data.token);
+        await AsyncStorage.setItem('userName', response.data.user.name);
+
+        navigation.navigate('Profile');
     }
 
     return (
