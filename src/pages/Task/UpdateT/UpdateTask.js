@@ -7,26 +7,46 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../../services/api';
 
 import style from './styles';
+import { color } from 'react-native-reanimated';
 
-export default function CreateTask() {
+export default function UpdateTask() {
     const [name, setName] = useState('');
     const [completed, setCompleted] = useState(false);
     const [priority, setPriority] = useState('');
 
     const navigation = useNavigation();
-
-    async function handleRegister() {
+    
+    async function getData() {
       try {
         const token = await AsyncStorage.getItem('token');
+        const taskId = await AsyncStorage.getItem('TaskId');
+  
+        const response = await api.get(`tasks/${taskId}`, { headers: {
+          Authorization: `Bearer ${token}`,
+        } } );
+        setName(response.data.task.name);
+        setCompleted(response.data.task.completed);
+        setPriority(response.data.task.priority);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-        await api.post('tasks', {
+    getData();
+
+    async function handleUpdate() {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        const taskId = await AsyncStorage.getItem('TaskId');
+
+        await api.put(`tasks/${taskId}`, {
            name, priority, completed }, { headers: {
             Authorization: `Bearer ${token}`,
           } } );
 
-          navigation.navigate('Profile');
+          navigation.goBack();
       }
-
+      
       catch (error) {
         console.log(error.message);
       }
@@ -35,8 +55,7 @@ export default function CreateTask() {
     return (
         <View style={style.container} >
           <TextInput style={style.textInput}
-              placeholder="Nome da tarefa"
-              value={name}
+              placeholder={name}
               onChangeText={setName}
               autoCorrect={false}
           />
@@ -67,8 +86,8 @@ export default function CreateTask() {
             ]}
           />
 
-          <TouchableHighlight style={style.button} onPress={() => handleRegister()} >
-              <Text style={style.buttonText}>Criar Task</Text>
+          <TouchableHighlight style={style.button} onPress={() => handleUpdate()} >
+              <Text style={style.buttonText}>Atualizar Task</Text>
           </TouchableHighlight>
         </View>
     );

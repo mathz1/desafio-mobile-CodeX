@@ -57,6 +57,11 @@ export default function Profile() {
     function handleCreateTask() {
         navigation.navigate('CreateTask');
     }
+    
+    function handleUpdateTask(id) {
+        AsyncStorage.setItem('TaskId', id);
+        navigation.navigate('UpdateTask');
+    }
 
     async function handleLogout() {
         await AsyncStorage.clear();
@@ -102,7 +107,7 @@ export default function Profile() {
 
                         <TouchableOpacity 
                             style={style.detailsButton} 
-                            onPress={() => navigateToDetail(incident)}
+                            onPress={() => handleUpdateTask(task._id)}
                         >
                             <Text style={style.detailsButtonText} >Atualizar tarefa</Text>
                             <Feather name="arrow-right" size={16} color="#6904A7" />

@@ -8,6 +8,7 @@ import Login from './pages/Login/Login';
 import Profile from './pages/Profile/Profile';
 import Register from './pages/Register/Register';
 import CreateTask from './pages/Task/Create/CreateTask';
+import UpdateTask from './pages/Task/UpdateT/UpdateTask';
 
 export default function Routes() {
     return (
@@ -17,6 +18,7 @@ export default function Routes() {
                 <appStack.Screen name="Profile" component={Profile} />
                 <appStack.Screen name="Register" component={Register} />
                 <appStack.Screen name="CreateTask" component={CreateTask} />
+                <appStack.Screen name="UpdateTask" component={UpdateTask} />
             </appStack.Navigator>
         </NavigationContainer>
     );

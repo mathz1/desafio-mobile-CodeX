@@ -43,6 +43,7 @@ export default StyleSheet.create({
         paddingVertical: 15,
         borderRadius: 5,
         backgroundColor: '#FFF',
+        color: '#FFF',
         alignSelf: 'stretch',
         marginBottom: 15,
         marginHorizontal: 20,
