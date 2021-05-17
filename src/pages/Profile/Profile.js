@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { View, Image, Text, FlatList, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,41 +11,24 @@ import api from '../../services/api';
 
 export default function Profile() {
     const [tasks, setTasks] = useState([]);
-    const [total, setTotal] = useState(0);
-
-    const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(false);
+    const isFocused = useIsFocused();
 
     const navigation = useNavigation();
 
-    async function loadTasks() {
-        if (loading) {
-            return;
-        }
-
-        setLoading(true);
-
-        const token = await AsyncStorage.getItem('token');
-
-        const response = await api.get('tasks', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        });
-
-        if (response.data.result.length > 0 && tasks.length === response.data.result.length) {
-            return;
-        }
-
-        setTasks([ ...tasks, ...response.data.result ]);
-        setTotal(response.data.result.length);
-        setPage(page + 1);
-        setLoading(false);
-    }
-
     useEffect(() => {
         loadTasks();
-    }, []);
+        async function loadTasks() {
+            const token = await AsyncStorage.getItem('token');
+    
+            await api.get('tasks', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }).then(response => {
+                setTasks(response.data.result);
+            });
+        }
+    }, [tasks.length, isFocused]);
 
     function completed(bool) {
         if (bool) {
@@ -91,12 +74,15 @@ export default function Profile() {
                 style={style.taskList}
                 data={tasks}
                 keyExtractor={task => String(task._id)}
-                showsVerticalScrollIndicator={false}
-                onEndReached={loadTasks}
-                onEndReachedThreshold={0.2}
                 renderItem={({ item: task }) => (
                     <View style={style.task} >
-                        <Text style={style.taskProperty} >NOME:</Text>
+                        <View style={style.delete} >
+                            <Text style={style.taskProperty} >NOME:</Text>
+                            
+                            <TouchableOpacity onPress={() => handleDeleteTask(task._id)} >
+                                <Feather name="trash-2" size={16} color="#6904A7" />
+                            </TouchableOpacity>
+                        </View>
                         <Text style={style.taskValue} >{task.name}</Text>
 
                         <Text style={style.taskProperty} >PRIORIDADE:</Text>

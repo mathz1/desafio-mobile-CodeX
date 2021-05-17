@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Image, Text, TextInput, TouchableHighlight } from 'react-native';
+import { View, Image, Text, TextInput, TouchableHighlight, TouchableOpacity } from 'react-native';
 
 import logo from '../../../assets/logo.png';
 
@@ -75,9 +75,9 @@ export default function Register() {
                 <Text style={style.buttonText} > Criar conta </Text>
             </TouchableHighlight>
 
-            <TouchableHighlight style={style.signUp} onPress={() => handlePage()} >
+            <TouchableOpacity style={style.signUp} onPress={() => handlePage()} >
                 <Text style={style.signUpText}> Já tenho uma conta </Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
 
         </View>
     );

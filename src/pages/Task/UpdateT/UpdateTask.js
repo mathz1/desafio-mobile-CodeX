@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableHighlight } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
@@ -13,6 +13,10 @@ export default function UpdateTask() {
     const [name, setName] = useState('');
     const [completed, setCompleted] = useState(false);
     const [priority, setPriority] = useState('');
+
+    const [nameUp, setNameUp] = useState('');
+    const [completedUp, setCompletedUp] = useState(false);
+    const [priorityUp, setPriorityUp] = useState('');
 
     const navigation = useNavigation();
     
@@ -32,7 +36,9 @@ export default function UpdateTask() {
       }
     };
 
-    getData();
+    useEffect(() => {
+      getData();
+    }, []);
 
     async function handleUpdate() {
       try {
@@ -40,11 +46,11 @@ export default function UpdateTask() {
         const taskId = await AsyncStorage.getItem('TaskId');
 
         await api.put(`tasks/${taskId}`, {
-           name, priority, completed }, { headers: {
+          name: nameUp, priority: priorityUp, completed: completedUp }, { headers: {
             Authorization: `Bearer ${token}`,
           } } );
 
-          navigation.goBack();
+        navigation.goBack();
       }
       
       catch (error) {
@@ -54,9 +60,13 @@ export default function UpdateTask() {
 
     return (
         <View style={style.container} >
+          <Text style={style.labelText}>
+              Nome:
+          </Text>
           <TextInput style={style.textInput}
               placeholder={name}
-              onChangeText={setName}
+              value={nameUp}
+              onChangeText={setNameUp}
               autoCorrect={false}
           />
 
@@ -66,7 +76,7 @@ export default function UpdateTask() {
           <RNPickerSelect
             style={style}
             useNativeAndroidPickerStyle={false}
-            onValueChange={(priority) => setPriority(priority)}
+            onValueChange={(priorityUp) => setPriorityUp(priorityUp)}
             items={[
                 { label: "Alta", value: "ALTA" },
                 { label: "Baixa", value: "BAIXA" },
@@ -79,7 +89,7 @@ export default function UpdateTask() {
           <RNPickerSelect
             style={style}            
             useNativeAndroidPickerStyle={false}            
-            onValueChange={(completed) => setCompleted(completed)}
+            onValueChange={(completedUp) => setCompletedUp(completedUp)}
             items={[
                 { label: "Sim", value: true },
                 { label: "Não", value: false },
@@ -91,4 +101,4 @@ export default function UpdateTask() {
           </TouchableHighlight>
         </View>
     );
-} 
+}

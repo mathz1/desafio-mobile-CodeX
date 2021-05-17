@@ -32,6 +32,10 @@ export default StyleSheet.create({
         justifyContent: 'space-between'
     },
 
+    buttonAtt: {
+        marginRight: -80
+    },
+
     title: {
         fontSize: 22,
         marginBottom: 16,
@@ -62,6 +66,12 @@ export default StyleSheet.create({
         fontSize: 15,
         marginBottom: 24,
         color: '#737380'
+    },
+
+    delete: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
 
     detailsButton: {
